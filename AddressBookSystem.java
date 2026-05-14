@@ -25,7 +25,12 @@ public class AddressBookSystem{
   System.out.println("One Contact is added");
   System.out.println(contacts);
 contacts.editContact();
+System.out.println("After Editing The Contacts");
 System.out.println(contacts);
+
+contacts=null; //we are pointing our contacts ref to null so it will loose the details of contacts
+// if we print the contacts it will generate null pointer exception becayse we are pointing it to null
+
  }
 }
 class Contacts{
