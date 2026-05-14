@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class AddressBookSystem{
  public static void main(String[] args) {
@@ -115,21 +117,26 @@ public void setEmail(String email) {
 
 class ContactRecord{
  public static List<Contacts> list=new ArrayList<>();
+ public static LinkedHashMap<String,Contacts> map=new LinkedHashMap<>();
  public static Scanner sc=new Scanner(System.in);
  public void addPersons(){
   boolean flag=true;
 while(flag){
-
-list.add(addPersonToContacts());
+  System.out.println("enter first name so that we can check weather its is unquie or all ready taken");
+String firstName=sc.nextLine();
+if(map.containsKey(firstName)){
+  System.out.println("This Name Already Exists so Please Enter a New Name");
+  continue;
+}
+// list.add(addPersonToContacts());
+map.put(firstName, addPersonToContacts(firstName));
   System.out.println("If You Still Want To ADD persons type true of if you are finished enetering persons type false");
   flag=sc.nextBoolean();
   sc.nextLine();
 }
 
  }
- public Contacts addPersonToContacts(){
-    System.out.println("Enter First Name");
-    String firstName=sc.nextLine();
+public Contacts addPersonToContacts(String firstName){
      System.out.println("Enter last Name");
     String lastName=sc.nextLine();
      System.out.println("Enter address");
@@ -149,9 +156,10 @@ list.add(addPersonToContacts());
   return contacts;
  }
  public void editAPerson(String name){
-    for(Contacts contact:list){
-    String oldName=contact.getFirstName();
-    if(oldName.equalsIgnoreCase(name)){
+   Set<String> firstNames=map.keySet();
+   for(String s:firstNames){
+    if(s.equalsIgnoreCase(name)){
+      Contacts contact=map.get(s);
      String firstName=contact.getFirstName();
      String lastName=contact.getLastName();
      String aadress=contact.getAddress();
@@ -161,7 +169,9 @@ list.add(addPersonToContacts());
      long phoneNumber=contact.getPhoneNumber();
      String email=contact.getEmail();
     if(deceideChioce("firstName")){
+      map.remove(firstName);
       firstName=sc.nextLine();
+    map.put(firstName, contact);
     }
       if(deceideChioce("lastName")){
       lastName=sc.nextLine();
@@ -197,9 +207,11 @@ list.add(addPersonToContacts());
     contact.setEmail(email);
     break;
     }
+    }
+   } 
     
-  }
- }
+  
+ 
  public boolean deceideChioce(String field){
   System.out.println("If you Want To Edit "+field+" Field type true or else false");
  boolean value=sc.nextBoolean();
@@ -207,18 +219,17 @@ list.add(addPersonToContacts());
   return value;
  }
  public void diaplayContactPersons(){
-  for(Contacts contact:list){
-    System.out.println(contact);
-  }
+Set<String> firstNames=map.keySet();
+for(String keys:firstNames){
+  System.out.println(map.get(keys));
+}
  }
  public void deleteAContact(String name){
-for(int i=0;i<list.size();i++){
-  Contacts contact=list.get(i);
-   String oldName=contact.getFirstName();
-   if(oldName.equalsIgnoreCase(name)){
-    list.remove(i);
-    break;
-   }
+if(map.containsKey(name)){
+ map.remove(name,map.get(name));
+}
+else{
+  System.out.println("The Contact is not available");
 }
 }
 }
