@@ -261,50 +261,40 @@ class ContactRecord {
 
   public void searchPersonByCity(String cityName) {
 
-    boolean found = false;
+    List<Contacts> persons = map.values()
+        .stream()
+        .filter(contact -> contact.getCity()
+            .equalsIgnoreCase(cityName))
+        .toList();
 
-    Set<String> firstNames = map.keySet();
+    if (persons.isEmpty()) {
 
-    for (String key : firstNames) {
-
-      Contacts contact = map.get(key);
-
-      if (contact.getCity()
-          .equalsIgnoreCase(cityName)) {
-
-        System.out.println(contact);
-        found = true;
-      }
-    }
-
-    if (!found) {
       System.out.println(
           "No person found in this city");
+
+    } else {
+
+      persons.forEach(System.out::println);
     }
   }
 
   public void searchPersonByState(String stateName) {
+    List<Contacts> persons = map.values()
+        .stream()
+        .filter(contact -> contact.getState()
+            .equalsIgnoreCase(stateName))
+        .toList();
 
-    boolean found = false;
+    if (persons.isEmpty()) {
 
-    Set<String> firstNames = map.keySet();
-
-    for (String key : firstNames) {
-
-      Contacts contact = map.get(key);
-
-      if (contact.getState()
-          .equalsIgnoreCase(stateName)) {
-
-        System.out.println(contact);
-        found = true;
-      }
-    }
-
-    if (!found) {
       System.out.println(
           "No person found in this state");
+
+    } else {
+
+      persons.forEach(System.out::println);
     }
+
   }
 
   public void addPersonToCityDictionary(
@@ -398,8 +388,7 @@ class ContactRecord {
 
     for (String state : states) {
 
-      System.out.println(state + " : "
-          + stateMap.get(state).size());
+      System.out.println(state + " : "+ stateMap.get(state).size());
     }
   }
 }
