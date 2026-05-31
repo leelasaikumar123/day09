@@ -356,37 +356,30 @@ class ContactRecord {
 
   public void viewPersonsByCity(String city) {
 
-    if (cityMap.containsKey(city)) {
+    if(cityMap.containsKey(city)) {
 
-      List<Contacts> persons = cityMap.get(city);
-
-      for (Contacts contact : persons) {
-
-        System.out.println(contact);
-      }
+        cityMap.get(city)
+               .stream()
+               .forEach(System.out::println);
 
     } else {
 
-      System.out.println(
-          "No persons found in city");
+        System.out.println(
+                "No persons found in city");
     }
   }
 
   public void viewPersonsByState(String state) {
+   if(stateMap.containsKey(state)) {
 
-    if (stateMap.containsKey(state)) {
-
-      List<Contacts> persons = stateMap.get(state);
-
-      for (Contacts contact : persons) {
-
-        System.out.println(contact);
-      }
+        stateMap.get(state)
+                .stream()
+                .forEach(System.out::println);
 
     } else {
 
-      System.out.println(
-          "No persons found in state");
+        System.out.println(
+                "No persons found in state");
     }
   }
 
