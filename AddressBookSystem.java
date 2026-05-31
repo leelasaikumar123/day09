@@ -269,20 +269,51 @@ class ContactRecord {
   }
 
   public void searchPersonByCity(String cityName) {
-    map.values()
-        .stream()
-        .filter(contact -> contact.getCity()
-            .equalsIgnoreCase(cityName))
-        .forEach(System.out::println);
+
+    boolean found = false;
+
+    Set<String> firstNames = map.keySet();
+
+    for (String key : firstNames) {
+
+      Contacts contact = map.get(key);
+
+      if (contact.getCity()
+          .equalsIgnoreCase(cityName)) {
+
+        System.out.println(contact);
+        found = true;
+      }
+    }
+
+    if (!found) {
+      System.out.println(
+          "No person found in this city");
+    }
   }
 
   public void searchPersonByState(String stateName) {
 
-    map.values()
-        .stream()
-        .filter(contact -> contact.getState()
-            .equalsIgnoreCase(stateName))
-        .forEach(System.out::println);
+    boolean found = false;
+
+    Set<String> firstNames = map.keySet();
+
+    for (String key : firstNames) {
+
+      Contacts contact = map.get(key);
+
+      if (contact.getState()
+          .equalsIgnoreCase(stateName)) {
+
+        System.out.println(contact);
+        found = true;
+      }
+    }
+
+    if (!found) {
+      System.out.println(
+          "No person found in this state");
+    }
   }
 
   public void addPersonToCityDictionary(
@@ -376,8 +407,7 @@ class ContactRecord {
 
     for (String state : states) {
 
-      System.out.println(state + " : "
-          + stateMap.get(state).size());
+      System.out.println(state + " : "+ stateMap.get(state).size());
     }
   }
 }
