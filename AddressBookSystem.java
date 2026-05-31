@@ -23,15 +23,20 @@ public class AddressBookSystem {
     record.deleteAContact(deleteContactNmae);
     System.out.println("After Deletion Our Contacts are");
     record.diaplayContactPersons();
-  System.out.println("Enter city");
-String city = sc.nextLine();
+    System.out.println("Enter city");
+    String city = sc.nextLine();
 
-record.viewPersonsByCity(city);
+    record.viewPersonsByCity(city);
 
-System.out.println("Enter state");
-String state = sc.nextLine();
+    System.out.println("Enter state");
+    String state = sc.nextLine();
 
-record.viewPersonsByState(state);
+    record.viewPersonsByState(state);
+    System.out.println("Count By City");
+    record.countByCity();
+
+    System.out.println("Count By State");
+    record.countByState();
   }
 }
 
@@ -339,40 +344,62 @@ class ContactRecord {
       stateMap.put(state, list);
     }
   }
+
   public void viewPersonsByCity(String city) {
 
-    if(cityMap.containsKey(city)) {
+    if (cityMap.containsKey(city)) {
 
-        List<Contacts> persons =
-                cityMap.get(city);
+      List<Contacts> persons = cityMap.get(city);
 
-        for(Contacts contact : persons) {
+      for (Contacts contact : persons) {
 
-            System.out.println(contact);
-        }
-
-    } else {
-
-        System.out.println(
-                "No persons found in city");
-    }
-}
-public void viewPersonsByState(String state) {
-
-    if(stateMap.containsKey(state)) {
-
-        List<Contacts> persons =
-                stateMap.get(state);
-
-        for(Contacts contact : persons) {
-
-            System.out.println(contact);
-        }
+        System.out.println(contact);
+      }
 
     } else {
 
-        System.out.println(
-                "No persons found in state");
+      System.out.println(
+          "No persons found in city");
     }
-}
+  }
+
+  public void viewPersonsByState(String state) {
+
+    if (stateMap.containsKey(state)) {
+
+      List<Contacts> persons = stateMap.get(state);
+
+      for (Contacts contact : persons) {
+
+        System.out.println(contact);
+      }
+
+    } else {
+
+      System.out.println(
+          "No persons found in state");
+    }
+  }
+
+  public void countByCity() {
+
+    Set<String> cities = cityMap.keySet();
+
+    for (String city : cities) {
+
+      System.out.println(city + " : "
+          + cityMap.get(city).size());
+    }
+  }
+
+  public void countByState() {
+
+    Set<String> states = stateMap.keySet();
+
+    for (String state : states) {
+
+      System.out.println(state + " : "
+          + stateMap.get(state).size());
+    }
+  }
 }
