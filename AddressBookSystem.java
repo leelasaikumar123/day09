@@ -23,6 +23,15 @@ public class AddressBookSystem {
     record.deleteAContact(deleteContactNmae);
     System.out.println("After Deletion Our Contacts are");
     record.diaplayContactPersons();
+    System.out.println("Enter city to search");
+    String cityName = sc.nextLine();
+
+    record.searchPersonByCity(cityName);
+
+    System.out.println("Enter state to search");
+    String stateName = sc.nextLine();
+
+    record.searchPersonByState(stateName);
     System.out.println("Enter city");
     String city = sc.nextLine();
 
@@ -260,51 +269,20 @@ class ContactRecord {
   }
 
   public void searchPersonByCity(String cityName) {
-
-    boolean found = false;
-
-    Set<String> firstNames = map.keySet();
-
-    for (String key : firstNames) {
-
-      Contacts contact = map.get(key);
-
-      if (contact.getCity()
-          .equalsIgnoreCase(cityName)) {
-
-        System.out.println(contact);
-        found = true;
-      }
-    }
-
-    if (!found) {
-      System.out.println(
-          "No person found in this city");
-    }
+    map.values()
+        .stream()
+        .filter(contact -> contact.getCity()
+            .equalsIgnoreCase(cityName))
+        .forEach(System.out::println);
   }
 
   public void searchPersonByState(String stateName) {
 
-    boolean found = false;
-
-    Set<String> firstNames = map.keySet();
-
-    for (String key : firstNames) {
-
-      Contacts contact = map.get(key);
-
-      if (contact.getState()
-          .equalsIgnoreCase(stateName)) {
-
-        System.out.println(contact);
-        found = true;
-      }
-    }
-
-    if (!found) {
-      System.out.println(
-          "No person found in this state");
-    }
+    map.values()
+        .stream()
+        .filter(contact -> contact.getState()
+            .equalsIgnoreCase(stateName))
+        .forEach(System.out::println);
   }
 
   public void addPersonToCityDictionary(
