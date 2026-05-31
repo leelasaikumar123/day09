@@ -23,17 +23,15 @@ public class AddressBookSystem {
     record.deleteAContact(deleteContactNmae);
     System.out.println("After Deletion Our Contacts are");
     record.diaplayContactPersons();
+  System.out.println("Enter city");
+String city = sc.nextLine();
 
-    System.out.println("Enter city name");
-    String city = sc.nextLine();
+record.viewPersonsByCity(city);
 
-    record.searchPersonByCity(city);
+System.out.println("Enter state");
+String state = sc.nextLine();
 
-    System.out.println("Enter state name");
-    String state = sc.nextLine();
-
-    record.searchPersonByState(state);
-
+record.viewPersonsByState(state);
   }
 }
 
@@ -133,6 +131,8 @@ class Contacts {
 class ContactRecord {
   public static List<Contacts> list = new ArrayList<>();
   public static LinkedHashMap<String, Contacts> map = new LinkedHashMap<>();
+  public static LinkedHashMap<String, List<Contacts>> cityMap = new LinkedHashMap<>();
+  public static LinkedHashMap<String, List<Contacts>> stateMap = new LinkedHashMap<>();
   public static Scanner sc = new Scanner(System.in);
 
   public void addPersons() {
@@ -145,7 +145,10 @@ class ContactRecord {
         continue;
       }
       // list.add(addPersonToContacts());
-      map.put(firstName, addPersonToContacts(firstName));
+      Contacts contact = addPersonToContacts(firstName);
+      map.put(firstName, contact);
+      addPersonToCityDictionary(contact);
+      addPersonToStateDictionary(contact);
       System.out
           .println("If You Still Want To ADD persons type true of if you are finished enetering persons type false");
       flag = sc.nextBoolean();
@@ -298,4 +301,78 @@ class ContactRecord {
           "No person found in this state");
     }
   }
+
+  public void addPersonToCityDictionary(
+      Contacts contact) {
+
+    String city = contact.getCity();
+
+    if (cityMap.containsKey(city)) {
+
+      cityMap.get(city).add(contact);
+
+    } else {
+
+      List<Contacts> list = new ArrayList<>();
+
+      list.add(contact);
+
+      cityMap.put(city, list);
+    }
+  }
+
+  public void addPersonToStateDictionary(
+      Contacts contact) {
+
+    String state = contact.getState();
+
+    if (stateMap.containsKey(state)) {
+
+      stateMap.get(state).add(contact);
+
+    } else {
+
+      List<Contacts> list = new ArrayList<>();
+
+      list.add(contact);
+
+      stateMap.put(state, list);
+    }
+  }
+  public void viewPersonsByCity(String city) {
+
+    if(cityMap.containsKey(city)) {
+
+        List<Contacts> persons =
+                cityMap.get(city);
+
+        for(Contacts contact : persons) {
+
+            System.out.println(contact);
+        }
+
+    } else {
+
+        System.out.println(
+                "No persons found in city");
+    }
+}
+public void viewPersonsByState(String state) {
+
+    if(stateMap.containsKey(state)) {
+
+        List<Contacts> persons =
+                stateMap.get(state);
+
+        for(Contacts contact : persons) {
+
+            System.out.println(contact);
+        }
+
+    } else {
+
+        System.out.println(
+                "No persons found in state");
+    }
+}
 }
