@@ -356,51 +356,48 @@ class ContactRecord {
 
   public void viewPersonsByCity(String city) {
 
-    if(cityMap.containsKey(city)) {
+    if (cityMap.containsKey(city)) {
 
-        cityMap.get(city)
-               .stream()
-               .forEach(System.out::println);
+      cityMap.get(city)
+          .stream()
+          .forEach(System.out::println);
 
     } else {
 
-        System.out.println(
-                "No persons found in city");
+      System.out.println(
+          "No persons found in city");
     }
   }
 
   public void viewPersonsByState(String state) {
-   if(stateMap.containsKey(state)) {
+    if (stateMap.containsKey(state)) {
 
-        stateMap.get(state)
-                .stream()
-                .forEach(System.out::println);
+      stateMap.get(state)
+          .stream()
+          .forEach(System.out::println);
 
     } else {
 
-        System.out.println(
-                "No persons found in state");
+      System.out.println(
+          "No persons found in state");
     }
   }
 
   public void countByCity() {
-
-    Set<String> cities = cityMap.keySet();
-
-    for (String city : cities) {
-
-      System.out.println(city + " : "
-          + cityMap.get(city).size());
-    }
+    cityMap.keySet()
+        .stream()
+        .forEach(city -> System.out.println(
+            city + " : "
+                + cityMap.get(city).size()));
   }
 
   public void countByState() {
 
-    Set<String> states = stateMap.keySet();
-
-    for (String state : states) {
-
-      System.out.println(state + " : "+ stateMap.get(state).size());
-    }
-  }
+   stateMap.keySet()
+            .stream()
+            .forEach(state ->
+                System.out.println(
+                    state + " : "
+                    + stateMap.get(state).size()));
+}
 }
