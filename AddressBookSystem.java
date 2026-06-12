@@ -3,6 +3,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.io.IOException;
 
 public class AddressBookSystem {
   public static void main(String[] args) {
@@ -12,6 +17,11 @@ public class AddressBookSystem {
     ContactRecord record = new ContactRecord();
     record.addPersons();
     System.out.println("Contact details before Editing");
+     record.writeContactsToFile();
+    System.out.println("Contacts Written To File");
+
+    System.out.println("Reading Contacts From File");
+    record.readContactsFromFile();
     record.diaplayContactPersons();
     System.out.println("Input the first name of the person you want to edit");
     String name = sc.nextLine();
@@ -137,7 +147,7 @@ class Contacts {
   }
 
   public String toString() {
-    return firstName + " " + lastName + " " + address + " " + city + " " + state + " " + zip + " " + phoneNumber + " "
+    return firstName + "," + lastName + "," + address + "," + city + "," + state + "," + zip + "," + phoneNumber + ","
         + email;
   }
 }
@@ -384,20 +394,34 @@ class ContactRecord {
   }
 
   public void countByCity() {
-    cityMap.keySet()
-        .stream()
-        .forEach(city -> System.out.println(
-            city + " : "
-                + cityMap.get(city).size()));
+    cityMap.keySet().stream().forEach(city -> System.out.println(city + " : "+ cityMap.get(city).size()));
   }
 
   public void countByState() {
 
-   stateMap.keySet()
-            .stream()
-            .forEach(state ->
-                System.out.println(
-                    state + " : "
-                    + stateMap.get(state).size()));
+   stateMap.keySet().stream().forEach(state ->System.out.println(state + " : "+ stateMap.get(state).size()));
+}
+public void writeContactsToFile() {
+    Path path = Paths.get("AddressBook.txt");
+    List<String> contactData = new ArrayList<>();
+    for (Contacts contact : map.values()) {
+        contactData.add(contact.toString());
+    }
+    try {
+        Files.write(path, contactData);
+        System.out.println(
+                "Contact Data Written To File Successfully"
+        );
+    } catch (IOException e) {
+    e.printStackTrace();
+    }
+}
+public void readContactsFromFile() {
+    Path path = Paths.get("AddressBook.txt");
+    try {
+        Files.lines(path).forEach(System.out::println);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 }
 }
